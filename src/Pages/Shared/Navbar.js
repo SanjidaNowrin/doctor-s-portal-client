@@ -1,6 +1,13 @@
+import { signOut } from "firebase/auth";
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
+import auth from "./../../firebase.init";
 const Navbar = () => {
+  const [user, loading, error] = useAuthState(auth);
+  const logOut = () => {
+    signOut(auth);
+  };
   const menuItems = (
     <>
       <li>
@@ -21,7 +28,13 @@ const Navbar = () => {
       </li>
 
       <li>
-        <Link to="/login">Login</Link>
+        {user ? (
+          <button onClick={logOut} className="btn btn-ghost">
+            Sign Out
+          </button>
+        ) : (
+          <Link to="/login">Login</Link>
+        )}
       </li>
     </>
   );
@@ -33,7 +46,7 @@ const Navbar = () => {
             <label tabIndex="0" className="btn btn-ghost lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
+                className="w-5 h-5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -48,15 +61,15 @@ const Navbar = () => {
             </label>
             <ul
               tabIndex="0"
-              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+              className="p-2 mt-3 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
             >
               {menuItems}
             </ul>
           </div>
-          <a className="btn btn-ghost normal-case text-xl">Doctors Portal</a>
+          <a className="text-xl normal-case btn btn-ghost">Doctors Portal</a>
         </div>
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal p-0">{menuItems}</ul>
+        <div className="hidden navbar-center lg:flex">
+          <ul className="p-0 menu menu-horizontal">{menuItems}</ul>
         </div>
       </div>
     </div>

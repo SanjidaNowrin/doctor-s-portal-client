@@ -11,7 +11,6 @@ const AvailableAppointment = ({ date }) => {
       .then((res) => res.json())
       .then((data) => setServices(data));
   }, []);
-  console.log(services);
   return (
     <div>
       <h4 className="text-xl text-center text-secondary">
